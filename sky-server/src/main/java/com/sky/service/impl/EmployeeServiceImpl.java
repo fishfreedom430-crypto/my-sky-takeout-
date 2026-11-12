@@ -90,11 +90,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
 
-        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+        Page<Employee> employeePage = employeeMapper.pageQuery(employeePageQueryDTO);
 
-        long total = page.getTotal();
-        List<Employee> records = page.getResult();
+        long total = employeePage.getTotal();
+        List<Employee> records = employeePage.getResult();
 
         return new PageResult(total,records);
+    }
+    
+    @Override
+    public void startOrStop(Integer status , Long id){
+
+        Employee employee = Employee.builder().status(status).id(id).build();
+        employeeMapper.startOrStop(employee);
     }
 }
